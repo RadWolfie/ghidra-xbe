@@ -92,6 +92,12 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 			return false;
 		}
 		String xbePath = program.getExecutablePath();
+		// HACK: Somehow GUI broke this yet headlessAnalyzer didn't...
+		// Even if remove first forward slash before drive letter cause corruption to "Executable Location" meta, not even sure why either.
+		if (Platform.CURRENT_PLATFORM.getOperatingSystem() == OperatingSystem.WINDOWS && xbePath.toCharArray()[0] == '/') {
+			xbePath = xbePath.substring(1).replace("/", "\\");
+		}
+		
 		List<String> cmd = new ArrayList<>();
 		cmd.add(toolPath);
 		cmd.add(xbePath);
