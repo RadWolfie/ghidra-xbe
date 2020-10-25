@@ -37,6 +37,7 @@ import ghidra.program.model.address.AddressSetView;
 import ghidra.program.model.listing.Program;
 import ghidra.program.model.symbol.SourceType;
 import ghidra.program.model.symbol.Namespace;
+import ghidra.util.classfinder.ExtensionPointProperties;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 import utility.application.ApplicationLayout;
@@ -47,6 +48,7 @@ import ghidra.util.exception.*;
 /**
  * TODO: Provide class-level documentation that describes what this analyzer does.
  */
+@ExtensionPointProperties(priority = 2)
 public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 	
 	private static final String xbsdb_tool_exec = "XbSymbolDatabaseTool";
