@@ -105,7 +105,6 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 		try {
 			Process exec = new ProcessBuilder().command(cmd).start();
 			BufferedReader output = new BufferedReader(new InputStreamReader(exec.getInputStream()));
-			exec.waitFor();
 
 			String line;
 			while ((line = output.readLine()) != null) {
@@ -117,6 +116,8 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 				String name = fullName.substring(libNameLength+2);
 				program.getSymbolTable().createLabel(address, name, getNamespace(program, lib), SourceType.ANALYSIS);
 			}
+			
+			exec.waitFor();
 		} catch (InterruptedException e) {
 			log.appendMsg("Failed to run " + toolExec);
 			return false;
