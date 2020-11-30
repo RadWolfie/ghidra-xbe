@@ -49,7 +49,7 @@ import ghidra.util.classfinder.ExtensionPointProperties;
 /**
  * TODO: Provide class-level documentation that describes what this analyzer does.
  */
-@ExtensionPointProperties(priority = 2)
+@ExtensionPointProperties(priority = 5)
 public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 	
 	private static final String xbsdb_tool_exec = "XbSymbolDatabaseTool";
@@ -69,10 +69,10 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 		return AnalyzerType.BYTE_ANALYZER;
 	}
 	
-	@Override
+	/*@Override
 	public boolean getDefaultEnablement(Program program) {
 		return program.getExecutableFormat().equals(XbeLoader.XBE_NAME);
-	}
+	}*/
 
 	@Override
 	public boolean canAnalyze(Program program) {
