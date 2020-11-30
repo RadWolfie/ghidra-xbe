@@ -57,7 +57,7 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 
 	public XbeXbSymbolDatabaseAnalyzer() {
 		super("Xbox Symbol Database Analyzer", "Scan XBE for known library functions", AnalyzerType.BYTE_ANALYZER);
-		super.setPriority(AnalysisPriority.DISASSEMBLY);
+		setPriority(AnalysisPriority.DISASSEMBLY);
 	}
 
 	/*@Override
