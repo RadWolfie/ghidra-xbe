@@ -42,11 +42,13 @@ import ghidra.util.task.TaskMonitor;
 import utility.application.ApplicationLayout;
 import ghidra.program.model.address.*;
 import ghidra.util.exception.*;
+import ghidra.util.classfinder.ExtensionPointProperties;
 
 
 /**
  * TODO: Provide class-level documentation that describes what this analyzer does.
  */
+@ExtensionPointProperties(priority = 2)
 public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 	
 	private static final String xbsdb_tool_exec = "XbSymbolDatabaseTool";
