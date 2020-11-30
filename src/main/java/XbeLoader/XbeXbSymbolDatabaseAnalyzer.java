@@ -56,13 +56,13 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 	private static final String xbsdb_tool_exec_wins = "XbSymbolDatabaseTool.exe";
 
 	public XbeXbSymbolDatabaseAnalyzer() {
-		super("Xbox Symbol Database Analyzer", "Scan XBE for known library functions", AnalyzerType.FUNCTION_ANALYZER);
+		super("Xbox Symbol Database Analyzer", "Scan XBE for known library functions", AnalyzerType.BYTE_ANALYZER);
 	}
 
-	/*@Override
+	@Override
 	public AnalysisPriority getPriority() {
-		return DISASSEMBLY;
-	}*/
+		return AnalysisPriority.DISASSEMBLY;
+	}
 	
 	@Override
 	public boolean getDefaultEnablement(Program program) {
