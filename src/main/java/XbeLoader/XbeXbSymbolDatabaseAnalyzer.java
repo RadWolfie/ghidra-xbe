@@ -64,10 +64,10 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 		return AnalysisPriority.DISASSEMBLY;
 	}*/
 
-	@Override
+	/*@Override
 	public AnalyzerType getAnalysisType() {
 		return AnalyzerType.BYTE_ANALYZER;
-	}
+	}*/
 	
 	/*@Override
 	public boolean getDefaultEnablement(Program program) {
