@@ -52,6 +52,15 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 	private static final String xbsdb_tool_exec = "XbSymbolDatabaseTool";
 	private static final String xbsdb_tool_exec_wins = "XbSymbolDatabaseTool.exe";
 
+	private static final String OPTION_NAME_SET_SYMBOL = "Allow  Set Symbol Name"; // Intentional extra space to force order of list.
+	private static final String OPTION_NAME_DEMANGLE_SYMBOL = "Allow Demangle Symbol Name";
+
+	private static final boolean OPTION_DEFAULT_ALLOW_SET_SYMBOL_NAME = true;
+	private static final boolean OPTION_DEFAULT_ALLOW_DEMANGLE_NAME = false;
+
+	private boolean allowSetSymbolName = OPTION_DEFAULT_ALLOW_SET_SYMBOL_NAME;
+	private boolean allowDemangleName = OPTION_DEFAULT_ALLOW_DEMANGLE_NAME;
+
 	public XbeXbSymbolDatabaseAnalyzer() {
 		super("Xbox Symbol Database Analyzer", "Scan XBE for known library functions", AnalyzerType.BYTE_ANALYZER);
 	}
@@ -68,8 +77,15 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 
 	@Override
 	public void registerOptions(Options options, Program program) {
-		// options.registerOption("Option name goes here", false, null,
-		// 	"Option description goes here");
+		// NOTE: Ghidra does not keep the options listing in order.
+		options.registerOption(OPTION_NAME_SET_SYMBOL, allowSetSymbolName, null, "Allow set symbol name, otherwise perform fixups if needed. (Demangle symbol will be excluded.)");
+		options.registerOption(OPTION_NAME_DEMANGLE_SYMBOL, allowDemangleName, null, "Demangle symbol name into generic symbol name.");
+	}
+
+	@Override
+	public void optionsChanged(Options options, Program program) {
+		allowSetSymbolName = options.getBoolean(OPTION_NAME_SET_SYMBOL, OPTION_DEFAULT_ALLOW_SET_SYMBOL_NAME);
+		allowDemangleName = options.getBoolean(OPTION_NAME_DEMANGLE_SYMBOL, OPTION_DEFAULT_ALLOW_DEMANGLE_NAME);
 	}
 
 	@Override
@@ -103,6 +119,9 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 		List<String> cmd = new ArrayList<>();
 		cmd.add(toolPath);
 		cmd.add(xbePath);
+		if (allowDemangleName) {
+			cmd.add("-d");
+		}
 
 		try {
 			Process exec = new ProcessBuilder().command(cmd).start();
@@ -116,7 +135,9 @@ public class XbeXbSymbolDatabaseAnalyzer extends AbstractAnalyzer {
 				int libNameLength = fullName.indexOf("__");
 				String lib = fullName.substring(0, libNameLength);
 				String name = fullName.substring(libNameLength+2);
-				program.getSymbolTable().createLabel(address, name, getNamespace(program, lib), SourceType.ANALYSIS);
+				if (allowSetSymbolName) {
+					program.getSymbolTable().createLabel(address, name, getNamespace(program, lib), SourceType.ANALYSIS);
+				}
 			}
 			
 			exec.waitFor();
